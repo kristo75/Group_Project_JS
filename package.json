@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha specs"
+    "test": "mocha specs",
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
