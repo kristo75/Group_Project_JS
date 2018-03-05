@@ -13898,7 +13898,9 @@ var map;
 var service;
 var infowindow;
 
-
+const callback = function(poisToDisplay){
+console.log(poisToDisplay);
+}
 
 const appStart = function(){
 
@@ -13928,8 +13930,13 @@ const appStart = function(){
 
         Leaflet.circle(e.latlng, radius).addTo(mymap);
         const poi = new Places();
-        poi.getGooglePlacesPOIs(e.latlng);
+
+        poi.getGooglePlacesPOIs(e.latlng, callback);
+
+
     }
+
+
 
     mymap.on('locationfound', onLocationFound);
 
@@ -13972,6 +13979,7 @@ const Places = function() {
   this.pois = [];
   this.callback = this.callback.bind(this);
   this.displayPOIS = this.displayPOIS.bind(this);
+  this.poisToDisplay = [];
 }
 
 
@@ -13985,7 +13993,7 @@ Places.prototype.callback = function(results, status) {
 }
 
 
-Places.prototype.getGooglePlacesPOIs = function(latLong){
+Places.prototype.getGooglePlacesPOIs = function(latLong, callback){
     const poiTypes = ['art_gallery', 'museum', 'church', 'city_hall', 'courthouse', 'zoo', 'synagogue', 'hindu_temple', 'mosque', 'library'];
     console.log(poiTypes);
     const currentLocation = new google.maps.LatLng(latLong.lat, latLong.lng);
@@ -14009,26 +14017,15 @@ Places.prototype.getGooglePlacesPOIs = function(latLong){
 
     setTimeout(function(){
       this.displayPOIS();
+      callback(this.poisToDisplay);
     }.bind(this), 1000);
 
 }
 
 Places.prototype.displayPOIS = function(){
-
-  let poisToDisplay = [];
-  // const places = this.pois;
-  // console.log(this.pois[0].geometry.location.lat());
-  // console.log(places);
-  // for (let place of places) {
-  //   console.log(place)
-  //   poisToDisplay.push(place[0])
-  // }
     for (var i = 0; i < 5; i++) {
-      poisToDisplay.push(this.pois.splice(Math.floor(Math.random()*this.pois.length), 1)[0]);
+      this.poisToDisplay.push(this.pois.splice(Math.floor(Math.random()*this.pois.length), 1)[0]);
     }
-
-    console.log(poisToDisplay);
-    // return poisToDisplay;
 }
 
 module.exports = Places;

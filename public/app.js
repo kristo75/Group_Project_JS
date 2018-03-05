@@ -6,7 +6,9 @@ var map;
 var service;
 var infowindow;
 
-
+const callback = function(poisToDisplay){
+console.log(poisToDisplay);
+}
 
 const appStart = function(){
 
@@ -36,8 +38,13 @@ const appStart = function(){
 
         Leaflet.circle(e.latlng, radius).addTo(mymap);
         const poi = new Places();
-        poi.getGooglePlacesPOIs(e.latlng);
+
+        poi.getGooglePlacesPOIs(e.latlng, callback);
+
+
     }
+
+
 
     mymap.on('locationfound', onLocationFound);
 
