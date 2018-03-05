@@ -14016,13 +14016,19 @@ Places.prototype.getGooglePlacesPOIs = function(latLong){
 Places.prototype.displayPOIS = function(){
 
   let poisToDisplay = [];
-  const places = this.pois;
-  console.log(places);
-  for (let place of places) {
-    console.log(place)
-    poisToDisplay.push(place[0])
-  }
-  //console.log(poisToDisplay);
+  // const places = this.pois;
+  // console.log(this.pois[0].geometry.location.lat());
+  // console.log(places);
+  // for (let place of places) {
+  //   console.log(place)
+  //   poisToDisplay.push(place[0])
+  // }
+    for (var i = 0; i < 5; i++) {
+      poisToDisplay.push(this.pois.splice(Math.floor(Math.random()*this.pois.length), 1)[0]);
+    }
+
+    console.log(poisToDisplay);
+    // return poisToDisplay;
 }
 
 module.exports = Places;
