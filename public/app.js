@@ -12,7 +12,6 @@ const appStart = function(){
 
 
     const callback = function(poisToDisplay){
-      console.log(poisToDisplay);
       const newMarkerIcon = Leaflet.icon({
           iconUrl: 'marker.png',
           iconSize:     [60, 120], // size of the icon
@@ -20,10 +19,11 @@ const appStart = function(){
           // popupAnchor:  [15, -20] // point from which the popup should open relative to the iconAnchor
       });
       poisToDisplay.forEach(function(poi){
+        console.log(poi.name);
         const lat = poi.geometry.location.lat();
         const long = poi.geometry.location.lng();
         Leaflet.marker([lat, long], {icon: newMarkerIcon}).addTo(mymap)
-            .bindPopup("You are here!").openPopup();
+            .bindPopup(poi.name).openPopup();
 
       })
 
