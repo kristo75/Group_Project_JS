@@ -1,5 +1,12 @@
 const Leaflet = require('leaflet');
 const keys = require('./keys.js');
+const Places = require('./places.js')
+
+var map;
+var service;
+var infowindow;
+
+
 
 const appStart = function(){
 
@@ -28,26 +35,16 @@ const appStart = function(){
             .bindPopup("You are here!").openPopup();
 
         Leaflet.circle(e.latlng, radius).addTo(mymap);
+        const poi = new Places();
+        poi.getGooglePlacesPOIs(e.latlng);
     }
 
     mymap.on('locationfound', onLocationFound);
 
-    const url = 'https://maps.googleapis.com/maps/api/js?key='+ keys.googleMaps +'&libraries=places';
-    makeRequest(url, requestComplete);
+
 
 }
-    const makeRequest = function(url, callback){
-      const request = new XMLHttpRequest();
-      request.open('GET', url);
-      request.addEventListener('load', callback);
-      request.send();
-    }
 
-    const requestComplete = function(){
-      if(this.status !== 200) return;
-      const jsonString = this.responseText;
-      const places = JSON.parse(jsonString);
-      console.log(places);
-    }
+
 
 document.addEventListener("DOMContentLoaded", appStart);

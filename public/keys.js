@@ -1,6 +1,6 @@
 const KEYS = {
    mapbox: 'pk.eyJ1IjoiZGF2ZXktZWxsaXMiLCJhIjoiY2plYmQydWo1MWVrdjJ5bzNmdmtiZXhhaiJ9.lNuXnwIwUmmdz82hHE-0Rg',
-   googleMaps: 'AIzaSyCi12Vn-yWAm4VH3rIYPxcuOqKUcHXu7Ho'
+   googleMaps: 'AIzaSyBKdb_iWva8-JiGjsHXsz1NqDFxESEHCmk'
 }
 
 module.exports = KEYS;
