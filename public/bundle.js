@@ -13978,7 +13978,9 @@ const Places = function() {
 
 Places.prototype.callback = function(results, status) {
   if (status == google.maps.places.PlacesServiceStatus.OK) {
-    this.pois.push(results);
+    for(let result of results){
+      this.pois.push(result);
+    }
   }
 }
 
@@ -14004,13 +14006,23 @@ Places.prototype.getGooglePlacesPOIs = function(latLong){
       service.nearbySearch(request, this.callback);
 
     }.bind(this));
-    this.displayPOIS();
 
+    setTimeout(function(){
+      this.displayPOIS();
+    }.bind(this), 1000);
 
 }
 
 Places.prototype.displayPOIS = function(){
-  console.log(this.pois);
+
+  let poisToDisplay = [];
+  const places = this.pois;
+  console.log(places);
+  for (let place of places) {
+    console.log(place)
+    poisToDisplay.push(place[0])
+  }
+  //console.log(poisToDisplay);
 }
 
 module.exports = Places;
