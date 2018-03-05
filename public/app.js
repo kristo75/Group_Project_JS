@@ -10,16 +10,25 @@ var infowindow;
 
 const appStart = function(){
 
+
     const callback = function(poisToDisplay){
+      console.log(poisToDisplay);
       const newMarkerIcon = Leaflet.icon({
           iconUrl: 'marker.png',
           iconSize:     [60, 120], // size of the icon
           // iconAnchor:   [50, 1], // point of the icon which will correspond to marker's location
           // popupAnchor:  [15, -20] // point from which the popup should open relative to the iconAnchor
       });
+      poisToDisplay.forEach(function(poi){
+        const lat = poi.geometry.location.lat();
+        const long = poi.geometry.location.lng();
+        Leaflet.marker([lat, long], {icon: newMarkerIcon}).addTo(mymap)
+            .bindPopup("You are here!").openPopup();
 
-      Leaflet.marker([55.9470404, -3.20305], {icon: newMarkerIcon}).addTo(mymap)
-          .bindPopup("You are here!").openPopup();
+      })
+
+
+
     }
 
     const mymap = Leaflet.map('map');
