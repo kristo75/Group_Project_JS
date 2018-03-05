@@ -6,6 +6,7 @@
   "scripts": {
     "test": "mocha specs",
     "start": "node server.js",
+    "localstart": "nodemon server.js",
     "build": "webpack -w --display-error-details"
   },
   "repository": {

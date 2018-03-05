@@ -1,5 +1,5 @@
 const Leaflet = require('leaflet');
-const mapBoxKey = require('./keys.js');
+const keys = require('./keys.js');
 
 const appStart = function(){
 
@@ -9,7 +9,7 @@ const appStart = function(){
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
         maxZoom: 18,
         id: 'mapbox.streets',
-        accessToken: mapBoxKey
+        accessToken: keys.mapbox
     }).addTo(mymap);
 
     const newMarkerIcon = Leaflet.icon({
@@ -32,8 +32,22 @@ const appStart = function(){
 
     mymap.on('locationfound', onLocationFound);
 
+    const url = 'https://maps.googleapis.com/maps/api/js?key='+ keys.googleMaps +'&libraries=places';
+    makeRequest(url, requestComplete);
 
 }
+    const makeRequest = function(url, callback){
+      const request = new XMLHttpRequest();
+      request.open('GET', url);
+      request.addEventListener('load', callback);
+      request.send();
+    }
 
+    const requestComplete = function(){
+      if(this.status !== 200) return;
+      const jsonString = this.responseText;
+      const places = JSON.parse(jsonString);
+      console.log(places);
+    }
 
 document.addEventListener("DOMContentLoaded", appStart);
