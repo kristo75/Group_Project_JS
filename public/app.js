@@ -6,11 +6,21 @@ var map;
 var service;
 var infowindow;
 
-const callback = function(poisToDisplay){
-console.log(poisToDisplay);
-}
+
 
 const appStart = function(){
+
+    const callback = function(poisToDisplay){
+      const newMarkerIcon = Leaflet.icon({
+          iconUrl: 'marker.png',
+          iconSize:     [60, 120], // size of the icon
+          // iconAnchor:   [50, 1], // point of the icon which will correspond to marker's location
+          // popupAnchor:  [15, -20] // point from which the popup should open relative to the iconAnchor
+      });
+
+      Leaflet.marker([55.9470404, -3.20305], {icon: newMarkerIcon}).addTo(mymap)
+          .bindPopup("You are here!").openPopup();
+    }
 
     const mymap = Leaflet.map('map');
 

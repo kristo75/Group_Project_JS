@@ -42,13 +42,13 @@ Places.prototype.getGooglePlacesPOIs = function(latLong, callback){
       this.displayPOIS();
       callback(this.poisToDisplay);
     }.bind(this), 1000);
-
 }
 
 Places.prototype.displayPOIS = function(){
     for (var i = 0; i < 5; i++) {
       this.poisToDisplay.push(this.pois.splice(Math.floor(Math.random()*this.pois.length), 1)[0]);
     }
+
 }
 
 module.exports = Places;
