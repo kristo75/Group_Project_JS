@@ -12,18 +12,19 @@ const appStart = function(){
 
 
     const callback = function(poisToDisplay){
-      const newMarkerIcon = Leaflet.icon({
-          iconUrl: 'marker.png',
-          iconSize:     [60, 120], // size of the icon
-          // iconAnchor:   [50, 1], // point of the icon which will correspond to marker's location
-          // popupAnchor:  [15, -20] // point from which the popup should open relative to the iconAnchor
-      });
+
       poisToDisplay.forEach(function(poi){
-        console.log(poi.name);
+        const newMarkerIcon = Leaflet.icon({
+            iconUrl: poi.icon,
+            iconSize:     [60, 120], // size of the icon
+            // iconAnchor:   [50, 1], // point of the icon which will correspond to marker's location
+            // popupAnchor:  [15, -20] // point from which the popup should open relative to the iconAnchor
+        });
+        console.log(poi);
         const lat = poi.geometry.location.lat();
         const long = poi.geometry.location.lng();
         Leaflet.marker([lat, long], {icon: newMarkerIcon}).addTo(mymap)
-            .bindPopup(poi.name).openPopup();
+            .bindPopup(poi.name + poi.types.join(' ')).openPopup();
 
       })
 

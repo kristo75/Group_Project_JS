@@ -17,26 +17,39 @@ Places.prototype.callback = function(results, status) {
 
 
 Places.prototype.getGooglePlacesPOIs = function(latLong, callback){
-    const poiTypes = ['art_gallery', 'museum', 'church', 'city_hall', 'courthouse', 'zoo', 'synagogue', 'hindu_temple', 'mosque', 'library'];
+    const poiTypes = ['sightseeing'];
     console.log(poiTypes);
-    const currentLocation = new google.maps.LatLng(latLong.lat, latLong.lng);
+    // const currentLocation = new google.maps.LatLng(latLong.lat, latLong.lng);
 
-    poiTypes.forEach(function(type){
-      var request = {
-        location: currentLocation,
-        radius: '1000',
-        type: type
-      };
+    // poiTypes.forEach(function(type){
+    //   var request = {
+    //     location: currentLocation,
+    //     radius: '500',
+    //     type: type
+    //   };
+    //
+    //   const googleMaps = new google.maps.Map(document.createElement('nomap'), {
+    //   center: currentLocation,
+    //   zoom: 15
+    // });
+    //   service = new google.maps.places.PlacesService(googleMap);
+    //
+    //   service.nearbySearch(request, this.callback);
+    //
+    // }.bind(this));
 
-      const googleMap = new google.maps.Map(document.createElement('nomap'), {
-      center: currentLocation,
-      zoom: 15
+
+
+    const url = 'https://api.sygictraveldata.com/1.0/en/places/list?bounds=51.50674581976235,-0.1306557655334473,51.5087791854578,-0.12452423572540285&level=poi&limit=512'
+    const request = new XMLHttpRequest();
+    request.open('GET', url)
+    request.setRequestHeader('x-api-key', 'jGGuMVeRWZ2x3ltjFRaj12sXfaxYpDzT4btQf2hV')
+    request.addEventListener('load', function(){
+      const jsonString = request.responseText
+      console.log(JSON.parse(jsonString).data.places);
+
     });
-      service = new google.maps.places.PlacesService(googleMap);
-
-      service.nearbySearch(request, this.callback);
-
-    }.bind(this));
+      request.send();
 
     setTimeout(function(){
       this.displayPOIS();
