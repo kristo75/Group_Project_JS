@@ -79,14 +79,13 @@ const appStart = function(){
 const poi = new Places();
 
 let userMarker = Leaflet.marker([0,0],{icon: newMarkerIcon}).addTo(mymap);
+// let userCircle = Leaflet.circle([0,0], 20).addTo(mymap);
 
     function onLocationFound(e) {
-        const radius = e.accuracy / 2;
+        // const radius = e.accuracy / 2;
 
-        // const location = new Leaflet.LatLng(e.latlng.lat, e.latlng.lng);
         userMarker.setLatLng(e.latlng);
-
-        // Leaflet.circle(e.latlng, radius).addTo(mymap);
+        // userCircle.setLatLng(e.latlng);
 
         console.log("hasplaces before:" + poi.hasPlaces);
         if(!poi.hasPlaces){
