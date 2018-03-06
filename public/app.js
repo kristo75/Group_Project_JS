@@ -26,13 +26,24 @@ const appStart = function(){
         console.log(poi);
         const lat = poi.location.lat;
         const long = poi.location.lng;
-        Leaflet.marker([lat, long], {icon: newMarkerIcon}).addTo(mymap)
+        const marker = Leaflet.marker([lat, long], {icon: newMarkerIcon}).addTo(mymap)
             .bindPopup(poi.name + '\n' + poi.perex).openPopup();
 
+        marker.addEventListener('click', function(){
+          const url = 'https://api.sygictraveldata.com/1.0/en/places/' + poi.id
+          const request = new XMLHttpRequest();
+          request.open('GET', url)
+          request.setRequestHeader('x-api-key', keys.sygicTravel)
+          request.addEventListener('load', function(){
+            const jsonString = request.responseText
+            const description = JSON.parse(jsonString).data.place.description.text;
+            // console.log(description);
+            // marker.closePopup();
+            marker._popup.setContent(description);
+        }.bind(this));
+          request.send();
+        })
       })
-
-
-
     }
 
     const mymap = Leaflet.map('map');
@@ -66,9 +77,6 @@ const appStart = function(){
 
 
     }
-
-
-
     mymap.on('locationfound', onLocationFound);
 
 
