@@ -1,22 +1,22 @@
 const Places = function() {
   this.pois = [];
-  this.callback = this.callback.bind(this);
+  // this.callback = this.callback.bind(this);
   this.displayPOIS = this.displayPOIS.bind(this);
   this.poisToDisplay = [];
 }
 
 
 
-Places.prototype.callback = function(results, status) {
-  if (status == google.maps.places.PlacesServiceStatus.OK) {
-    for(let result of results){
-      this.pois.push(result);
-    }
-  }
-}
+// Places.prototype.callback = function(results, status) {
+//   if (status == google.maps.places.PlacesServiceStatus.OK) {
+//     for(let result of results){
+//       this.pois.push(result);
+//     }
+//   }
+// }
 
 
-Places.prototype.getGooglePlacesPOIs = function(latLong, callback){
+Places.prototype.getGooglePlacesPOIs = function(latLong){
   const poiTypes = ['sightseeing'];
   console.log(poiTypes);
   // const currentLocation = new google.maps.LatLng(latLong.lat, latLong.lng);
@@ -56,15 +56,15 @@ Places.prototype.getGooglePlacesPOIs = function(latLong, callback){
 
   const bounds = calculateBounds(lat, lon);
 console.log();
-  const url = 'https://api.sygictraveldata.com/1.0/en/places/list?bounds='+ bounds + '&level=poi'
+  const url = 'https://api.sygictraveldata.com/1.0/en/places/list?bounds='+ bounds + '&level=poi&limit=50'
   const request = new XMLHttpRequest();
   request.open('GET', url)
   request.setRequestHeader('x-api-key', 'jGGuMVeRWZ2x3ltjFRaj12sXfaxYpDzT4btQf2hV')
   request.addEventListener('load', function(){
     const jsonString = request.responseText
-    console.log(JSON.parse(jsonString).data.places);
-
-  });
+    this.pois= JSON.parse(jsonString).data.places;
+console.log(this.pois);
+}.bind(this));
   request.send();
 
   setTimeout(function(){
@@ -73,11 +73,14 @@ console.log();
   }.bind(this), 1000);
 }
 
+
 Places.prototype.displayPOIS = function(){
+  console.log(this.pois);
+
   for (var i = 0; i < 5; i++) {
     this.poisToDisplay.push(this.pois.splice(Math.floor(Math.random()*this.pois.length), 1)[0]);
   }
-
+console.log(this.poisToDisplay);
 }
 
 module.exports = Places;
