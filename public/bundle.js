@@ -13907,16 +13907,19 @@ const appStart = function(){
 
       poisToDisplay.forEach(function(poi){
         const newMarkerIcon = Leaflet.icon({
-            iconUrl: poi.icon,
-            iconSize:     [60, 120], // size of the icon
+            iconUrl: poi.thumbnail_url,
+            iconSize:     [100, 100] // size of the icon
+            // className: 'marker-icon'
+
             // iconAnchor:   [50, 1], // point of the icon which will correspond to marker's location
             // popupAnchor:  [15, -20] // point from which the popup should open relative to the iconAnchor
         });
+        // newMarkerIcon.addClass('marker-icon')
         console.log(poi);
-        const lat = poi.geometry.location.lat();
-        const long = poi.geometry.location.lng();
+        const lat = poi.location.lat;
+        const long = poi.location.lng;
         Leaflet.marker([lat, long], {icon: newMarkerIcon}).addTo(mymap)
-            .bindPopup(poi.name + poi.types.join(' ')).openPopup();
+            .bindPopup(poi.name + '\n' + poi.perex).openPopup();
 
       })
 
@@ -14013,7 +14016,7 @@ const Places = function() {
 // }
 
 
-Places.prototype.getGooglePlacesPOIs = function(latLong){
+Places.prototype.getGooglePlacesPOIs = function(latLong, callback){
   const poiTypes = ['sightseeing'];
   console.log(poiTypes);
   // const currentLocation = new google.maps.LatLng(latLong.lat, latLong.lng);

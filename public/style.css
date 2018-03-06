@@ -2,3 +2,7 @@ html body #map{
   height: 100vw;
   width: 100%;
 }
+
+.marker-icon {
+  border-radius: 50%;
+}

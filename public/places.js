@@ -16,7 +16,7 @@ const Places = function() {
 // }
 
 
-Places.prototype.getGooglePlacesPOIs = function(latLong){
+Places.prototype.getGooglePlacesPOIs = function(latLong, callback){
   const poiTypes = ['sightseeing'];
   console.log(poiTypes);
   // const currentLocation = new google.maps.LatLng(latLong.lat, latLong.lng);
