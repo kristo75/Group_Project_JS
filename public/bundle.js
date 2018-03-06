@@ -13983,7 +13983,7 @@ document.addEventListener("DOMContentLoaded", appStart);
 
 const KEYS = {
    mapbox: 'pk.eyJ1IjoiZGF2ZXktZWxsaXMiLCJhIjoiY2plYmQydWo1MWVrdjJ5bzNmdmtiZXhhaiJ9.lNuXnwIwUmmdz82hHE-0Rg',
-   googleMaps: 'AIzaSyBKdb_iWva8-JiGjsHXsz1NqDFxESEHCmk'
+   sigicTravel: 'jGGuMVeRWZ2x3ltjFRaj12sXfaxYpDzT4btQf2hV'
 }
 
 module.exports = KEYS;
@@ -13996,7 +13996,9 @@ module.exports = KEYS;
   !*** ./public/places.js ***!
   \**************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+const keys = __webpack_require__(/*! ./keys.js */ "./public/keys.js");
 
 const Places = function() {
   this.pois = [];
@@ -14029,10 +14031,10 @@ Places.prototype.getGooglePlacesPOIs = function(latLong, callback){
 
   const bounds = calculateBounds(lat, lon);
 console.log();
-  const url = 'https://api.sygictraveldata.com/1.0/en/places/list?bounds='+ bounds + '&level=poi&limit=50'
+  const url = 'https://api.sygictraveldata.com/1.0/en/places/list?bounds='+ bounds + '&level=poi&categories=' + poiTypes + '&limit=50'
   const request = new XMLHttpRequest();
   request.open('GET', url)
-  request.setRequestHeader('x-api-key', 'jGGuMVeRWZ2x3ltjFRaj12sXfaxYpDzT4btQf2hV')
+  request.setRequestHeader('x-api-key', keys.sygicTravel)
   request.addEventListener('load', function(){
     const jsonString = request.responseText
     this.pois= JSON.parse(jsonString).data.places;

@@ -1,3 +1,5 @@
+const keys = require('./keys.js');
+
 const Places = function() {
   this.pois = [];
   this.displayPOIS = this.displayPOIS.bind(this);
@@ -29,10 +31,10 @@ Places.prototype.getGooglePlacesPOIs = function(latLong, callback){
 
   const bounds = calculateBounds(lat, lon);
 console.log();
-  const url = 'https://api.sygictraveldata.com/1.0/en/places/list?bounds='+ bounds + '&level=poi&limit=50'
+  const url = 'https://api.sygictraveldata.com/1.0/en/places/list?bounds='+ bounds + '&level=poi&categories=' + poiTypes + '&limit=50'
   const request = new XMLHttpRequest();
   request.open('GET', url)
-  request.setRequestHeader('x-api-key', 'jGGuMVeRWZ2x3ltjFRaj12sXfaxYpDzT4btQf2hV')
+  request.setRequestHeader('x-api-key', keys.sygicTravel)
   request.addEventListener('load', function(){
     const jsonString = request.responseText
     this.pois= JSON.parse(jsonString).data.places;
