@@ -14029,8 +14029,6 @@ Places.prototype.getPlacesPOIs = function(latLong, callback){
   const lon = latLong.lng;
 
   const calculateBounds = function(lat, lon){
-    console.log(lat);
-    console.log(lon);
     const R = 6371;  // earth radius in km
     const radius = 5000; // meters
     const x1 = lon - (Math.PI/180)*(radius/R/Math.cos(lat*(Math.PI/180)));
@@ -14038,12 +14036,10 @@ Places.prototype.getPlacesPOIs = function(latLong, callback){
     const y1 = lat + (Math.PI/180)*(radius/R);
     const y2 = lat - (Math.PI/180)*(radius/R);
     const bounds = y2 + ',' + x1 +',' + y1 + ',' + x2;
-    console.log(bounds);
     return bounds;
   };
 
   const bounds = calculateBounds(lat, lon);
-console.log();
   const url = 'https://api.sygictraveldata.com/1.0/en/places/list?bounds='+ bounds + '&level=poi&categories=' + poiTypes + '&limit=50'
   const request = new XMLHttpRequest();
   request.open('GET', url)
@@ -14051,7 +14047,6 @@ console.log();
   request.addEventListener('load', function(){
     const jsonString = request.responseText
     this.pois= JSON.parse(jsonString).data.places;
-console.log(this.pois);
 }.bind(this));
   request.send();
 
