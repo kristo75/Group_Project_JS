@@ -13906,20 +13906,27 @@ const appStart = function(){
     const callback = function(poisToDisplay){
 
       poisToDisplay.forEach(function(poi){
-        const newMarkerIcon = Leaflet.icon({
+        let newMarkerIcon;
+        if(poi.thumbnail_url != null){
+          newMarkerIcon = Leaflet.icon({
             iconUrl: poi.thumbnail_url,
             iconSize:     [100, 100] // size of the icon
-            // className: 'marker-icon'
-
-            // iconAnchor:   [50, 1], // point of the icon which will correspond to marker's location
-            // popupAnchor:  [15, -20] // point from which the popup should open relative to the iconAnchor
-        });
-        // newMarkerIcon.addClass('marker-icon')
-        console.log(poi);
+          });
+        } else {
+          newMarkerIcon = Leaflet.icon({
+            iconUrl: 'marker.png',
+            iconSize:     [60, 120]// size of the icon
+          });
+        }
         const lat = poi.location.lat;
         const long = poi.location.lng;
+        let perex = poi.perex;
+        if(perex == null){
+          perex = "";
+        }
+
         const marker = Leaflet.marker([lat, long], {icon: newMarkerIcon}).addTo(mymap)
-            .bindPopup(poi.name + '\n' + poi.perex).openPopup();
+            .bindPopup(poi.name + '\n' + perex).openPopup();
 
         marker.addEventListener('click', function(){
           const url = 'https://api.sygictraveldata.com/1.0/en/places/' + poi.id
@@ -13928,9 +13935,13 @@ const appStart = function(){
           request.setRequestHeader('x-api-key', keys.sygicTravel)
           request.addEventListener('load', function(){
             const jsonString = request.responseText
-            const description = JSON.parse(jsonString).data.place.description.text;
-            // console.log(description);
-            // marker.closePopup();
+            let description = JSON.parse(jsonString).data.place.description;
+
+            if(description == null){
+              description = poi.name;
+            } else {
+              description = description.text
+            }
             marker._popup.setContent(description);
         }.bind(this));
           request.send();
@@ -13949,7 +13960,7 @@ const appStart = function(){
 
     const newMarkerIcon = Leaflet.icon({
         iconUrl: 'marker.png',
-        iconSize:     [60, 120], // size of the icon
+        iconSize:     [60, 120] // size of the icon
         // iconAnchor:   [50, 1], // point of the icon which will correspond to marker's location
         // popupAnchor:  [15, -20] // point from which the popup should open relative to the iconAnchor
     });
@@ -13965,17 +13976,11 @@ const appStart = function(){
         Leaflet.circle(e.latlng, radius).addTo(mymap);
         const poi = new Places();
 
-        poi.getGooglePlacesPOIs(e.latlng, callback);
-
+        poi.getPlacesPOIs(e.latlng, callback);
 
     }
     mymap.on('locationfound', onLocationFound);
-
-
-
 }
-
-
 
 document.addEventListener("DOMContentLoaded", appStart);
 
@@ -14016,7 +14021,7 @@ const Places = function() {
 
 
 
-Places.prototype.getGooglePlacesPOIs = function(latLong, callback){
+Places.prototype.getPlacesPOIs = function(latLong, callback){
   const poiTypes = ['sightseeing'];
   console.log(poiTypes);
 
@@ -14053,7 +14058,7 @@ console.log(this.pois);
   setTimeout(function(){
     this.displayPOIS();
     callback(this.poisToDisplay);
-  }.bind(this), 2000);
+  }.bind(this), 1000);
 }
 
 

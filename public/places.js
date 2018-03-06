@@ -8,7 +8,7 @@ const Places = function() {
 
 
 
-Places.prototype.getGooglePlacesPOIs = function(latLong, callback){
+Places.prototype.getPlacesPOIs = function(latLong, callback){
   const poiTypes = ['sightseeing'];
   console.log(poiTypes);
 
@@ -45,7 +45,7 @@ console.log(this.pois);
   setTimeout(function(){
     this.displayPOIS();
     callback(this.poisToDisplay);
-  }.bind(this), 2000);
+  }.bind(this), 1000);
 }
 
 
