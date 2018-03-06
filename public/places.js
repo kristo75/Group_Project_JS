@@ -4,11 +4,14 @@ const Places = function() {
   this.pois = [];
   this.displayPOIS = this.displayPOIS.bind(this);
   this.poisToDisplay = [];
+  this.hasPlaces = false;
 }
 
 
 
 Places.prototype.getPlacesPOIs = function(latLong, callback){
+  this.hasPlaces = true;
+
   const poiTypes = ['sightseeing'];
   console.log(poiTypes);
 
@@ -45,12 +48,11 @@ Places.prototype.getPlacesPOIs = function(latLong, callback){
 
 
 Places.prototype.displayPOIS = function(){
-  console.log(this.pois);
 
   for (var i = 0; i < 5; i++) {
     this.poisToDisplay.push(this.pois.splice(Math.floor(Math.random()*this.pois.length), 1)[0]);
   }
-console.log(this.poisToDisplay);
+
 }
 
 module.exports = Places;

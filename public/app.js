@@ -73,21 +73,26 @@ const appStart = function(){
         // popupAnchor:  [15, -20] // point from which the popup should open relative to the iconAnchor
     });
 
-    mymap.locate({setView: true, maxZoom: 16});
+    mymap.locate({setView: true, maxZoom: 16, watch: true});
+
+
+const poi = new Places();
 
     function onLocationFound(e) {
         const radius = e.accuracy / 2;
 
         Leaflet.marker(e.latlng, {icon: newMarkerIcon}).addTo(mymap)
-            .bindPopup("You are here!").openPopup();
+        .bindPopup("You are here!").openPopup();
 
         Leaflet.circle(e.latlng, radius).addTo(mymap);
-        const poi = new Places();
 
-        poi.getPlacesPOIs(e.latlng, callback);
-
+        console.log("hasplaces before:" + poi.hasPlaces);
+        if(!poi.hasPlaces){
+          poi.getPlacesPOIs(e.latlng, callback);
+        }
+        console.log("hasplaces after:" + poi.hasPlaces);
+      }
+      mymap.on('locationfound', onLocationFound);
     }
-    mymap.on('locationfound', onLocationFound);
-}
 
 document.addEventListener("DOMContentLoaded", appStart);
