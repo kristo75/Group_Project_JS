@@ -43,7 +43,7 @@ console.log(this.pois);
   setTimeout(function(){
     this.displayPOIS();
     callback(this.poisToDisplay);
-  }.bind(this), 1000);
+  }.bind(this), 2000);
 }
 
 
