@@ -14000,43 +14000,16 @@ module.exports = KEYS;
 
 const Places = function() {
   this.pois = [];
-  // this.callback = this.callback.bind(this);
   this.displayPOIS = this.displayPOIS.bind(this);
   this.poisToDisplay = [];
 }
 
 
 
-// Places.prototype.callback = function(results, status) {
-//   if (status == google.maps.places.PlacesServiceStatus.OK) {
-//     for(let result of results){
-//       this.pois.push(result);
-//     }
-//   }
-// }
-
-
 Places.prototype.getGooglePlacesPOIs = function(latLong, callback){
   const poiTypes = ['sightseeing'];
   console.log(poiTypes);
-  // const currentLocation = new google.maps.LatLng(latLong.lat, latLong.lng);
 
-  // poiTypes.forEach(function(type){
-  //   var request = {
-  //     location: currentLocation,
-  //     radius: '500',
-  //     type: type
-  //   };
-  //
-  //   const googleMaps = new google.maps.Map(document.createElement('nomap'), {
-  //   center: currentLocation,
-  //   zoom: 15
-  // });
-  //   service = new google.maps.places.PlacesService(googleMap);
-  //
-  //   service.nearbySearch(request, this.callback);
-  //
-  // }.bind(this));
   const lat = latLong.lat;
   const lon = latLong.lng;
 
@@ -14044,7 +14017,7 @@ Places.prototype.getGooglePlacesPOIs = function(latLong, callback){
     console.log(lat);
     console.log(lon);
     const R = 6371;  // earth radius in km
-    const radius = 5000; // km
+    const radius = 5000; // meters
     const x1 = lon - (Math.PI/180)*(radius/R/Math.cos(lat*(Math.PI/180)));
     const x2 = lon + (Math.PI/180)*(radius/R/Math.cos(lat*(Math.PI/180)));
     const y1 = lat + (Math.PI/180)*(radius/R);
