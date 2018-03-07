@@ -9,9 +9,21 @@ const Request = require('./request.js')
 // let zoom;
 let userLocation;
 
+
+const initialiseElements = function(){
+  const userPrevPOIBtn = document.querySelector('#userSavedPoi');
+  userPrevPOIBtn.addEventListener('click', function(){
+    console.log('clicky');
+    const getRequest = new Request('http://localhost:3000/db');
+    getRequest.get(function(allPOIs){
+      console.log(allPOIs);
+    })
+  })
+}
+
 const appStart = function(){
 
-
+    initialiseElements();
     const callback = function(poisToDisplay){
 
       poisToDisplay.forEach(function(poi){
