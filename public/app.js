@@ -2,10 +2,11 @@ const Leaflet = require('leaflet');
 const keys = require('./keys.js');
 const Places = require('./places.js')
 
-var map;
-var service;
-var infowindow;
-let zoom;
+// var map;
+// var service;
+// var infowindow;
+// let zoom;
+let userLocation;
 
 
 const appStart = function(){
@@ -22,9 +23,9 @@ const appStart = function(){
             // iconSize:     [100, 100] // size of the icon
           });
         } else {
-          newMarkerIcon = Leaflet.icon({
-              iconUrl: 'marker.png',
-              iconSize:     [60, 120] // size of the icon
+          // newMarkerIcon = Leaflet.icon({
+            newMarkerIcon = Leaflet.divIcon({
+              html: '<img  class= "marker-icon" src="./marker.png"/>'
               // iconAnchor:   [50, 1], // point of the icon which will correspond to marker's location
               // popupAnchor:  [15, -20] // point from which the popup should open relative to the iconAnchor
           });
@@ -47,13 +48,21 @@ const appStart = function(){
           request.addEventListener('load', function(){
             const jsonString = request.responseText
             let description = JSON.parse(jsonString).data.place.description;
+            const poilatlng = Leaflet.latLng(poi.location.lat, poi.location.lng);
+            const distance = userLocation.distanceTo(poilatlng);
+            console.log('userLocation: ' +userLocation);
+            console.log('distance: '+distance);
+            console.log('poilatlng: ' +poilatlng);
 
-            if(description == null){
-              description = poi.name;
-            } else {
-              description = poi.name + ' ' + description.text
+            if(distance <= 50){
+              if(description == null){
+                description = poi.name;
+              } else {
+                description = poi.name + ' ' + description.text
+              }
+              marker._popup.setContent(description);
             }
-            marker._popup.setContent(description);
+
         }.bind(this));
           request.send();
         })
@@ -70,15 +79,18 @@ const appStart = function(){
     }).addTo(mymap);
 
     const newMarkerIcon = Leaflet.icon({
-        iconUrl: 'marker.png',
-        iconSize:     [60, 120] // size of the icon
+        iconUrl: 'user_marker.png',
+        // iconSize:     [60, 120] // size of the icon
         // iconAnchor:   [50, 1], // point of the icon which will correspond to marker's location
         // popupAnchor:  [15, -20] // point from which the popup should open relative to the iconAnchor
     });
 
     mymap.locate({setView: false, maxZoom: 15, watch: true});
 
+// CodeClan:
 // 55.946927, -3.201912
+// New York:
+// 40.7751012,-73.9767428
 
 const poi = new Places();
 let hasSetInitialView = false;
@@ -95,6 +107,7 @@ function onLocationFound(e) {
 
   hasSetInitialView = true;
 
+  userLocation = e.latlng;
   // const radius = e.accuracy / 2;
   userMarker.setLatLng(e.latlng);
   mymap.panTo(e.latlng);
@@ -103,6 +116,7 @@ function onLocationFound(e) {
   if(!poi.hasPlaces){
     poi.getPlacesPOIs(e.latlng, callback);
   }
+
 }
 mymap.on('locationfound', onLocationFound);
 
