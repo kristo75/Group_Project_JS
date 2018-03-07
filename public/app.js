@@ -36,7 +36,7 @@ const appStart = function(){
           perex = "";
         }
 
-        const marker = Leaflet.marker([lat, long], {icon: newMarkerIcon}).addTo(mymap)
+        const marker = Leaflet.marker([lat, long], {icon: newMarkerIcon, riseOnHover: true}).addTo(mymap)
             .bindPopup(poi.name + '\n' + perex);
 
         marker.addEventListener('click', function(){
@@ -51,7 +51,7 @@ const appStart = function(){
             if(description == null){
               description = poi.name;
             } else {
-              description = description.text
+              description = poi.name + ' ' + description.text
             }
             marker._popup.setContent(description);
         }.bind(this));
