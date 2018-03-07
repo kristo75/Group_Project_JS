@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
+
 html body #map{
   height: 550px;
   width: 100%;
@@ -8,4 +10,10 @@ html body #map{
   width: 100px;
   border: 2px solid purple;
   border-radius: 50%;
+}
+
+.popup {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 20px;
+  font-weight: bold;
 }

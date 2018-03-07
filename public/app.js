@@ -38,7 +38,7 @@ const appStart = function(){
         }
 
         const marker = Leaflet.marker([lat, long], {icon: newMarkerIcon, riseOnHover: true}).addTo(mymap)
-            .bindPopup(poi.name + '\n' + perex);
+            .bindPopup(poi.name + '\n' + perex, {className: 'popup'});
 
         marker.addEventListener('click', function(){
           const url = 'https://api.sygictraveldata.com/1.0/en/places/' + poi.id
@@ -57,9 +57,15 @@ const appStart = function(){
            console.log(newPoi);
          }
             if(distance <= 50){
-              const poiToSend = poi;
-              const mongoRequest = new Request('http://localhost:3000/');
-              mongoRequest.post(poiToSend, createRequestComplete);
+
+              const getRequest = new Request('http://localhost:3000/db/' + poi.id)
+              getRequest.get(function(){
+                if(getRequest.status !== 200){
+                  const poiToSend = poi;
+                  const saveRequest = new Request('http://localhost:3000/');
+                  saveRequest.post(poiToSend, createRequestComplete);
+                }
+              });
 
               if(description == null){
                 description = poi.name;

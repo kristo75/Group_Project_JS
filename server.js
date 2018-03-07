@@ -3,6 +3,7 @@ const app = express();
 const path = require('path');
 const database = require('mongodb').MongoClient;
 const bodyParser = require('body-parser');
+const ObjectID = require('mongodb').ObjectID;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -21,6 +22,10 @@ database.connect("mongodb://localhost:27017", function(error, client){
   app.post('/', function(req, res){
     const visitedPoisCollection = db.collection('visitedPois');
     const visitedPoisToSave = req.body;
+    // console.log(req.body.id.substring(4));
+    // const objectID = new ObjectID(req.body.id.substring(4));
+
+// {_id: objectID, value: visitedPoisToSave}
     visitedPoisCollection.save(visitedPoisToSave, function(error, result){
       if(error){
         console.log("Error:", error);
@@ -30,6 +35,21 @@ database.connect("mongodb://localhost:27017", function(error, client){
       res.status(201);
       res.json(result.ops[0]);
       console.log('saved to database');
+    });
+  })
+
+  app.get('/db/:id', function(req, res){
+    const visitedPoisToGet = req.body;
+    console.log("ID", req.params.id);
+    const objectID = new ObjectID(req.params.id);
+    const filterObject = {_id: objectID};
+    visitedPoisToGet.find(filterObject).toArray(function(error, poi){
+      if(error){
+        console.log("error", error);
+        res.status(500);
+        res.send();
+      }
+      res.json(poi);
     });
   })
 
