@@ -81,7 +81,7 @@ const appStart = function(){
     const newMarkerIcon = Leaflet.icon({
         iconUrl: 'user_marker.png',
         // iconSize:     [60, 120] // size of the icon
-        // iconAnchor:   [50, 1], // point of the icon which will correspond to marker's location
+        iconAnchor:   [50, 100] // point of the icon which will correspond to marker's location
         // popupAnchor:  [15, -20] // point from which the popup should open relative to the iconAnchor
     });
 
