@@ -55,6 +55,7 @@ const appStart = function(){
             console.log('poilatlng: ' +poilatlng);
 
             if(distance <= 50){
+              
               if(description == null){
                 description = poi.name;
               } else {
