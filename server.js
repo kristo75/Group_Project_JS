@@ -19,8 +19,23 @@ database.connect("mongodb://localhost:27017", function(error, client){
     res.sendFile(path.join(__dirname + '/index.html'))
   });
 
+  app.get('/db', function(req, res){
+    const userPOIs = db.collection('visitedPois');
+    userPOIs.find({}).toArray(function(err, result){
+      if (err) {
+        console.log(err);
+        res.status(500);
+        res.send();
+      }
+      res.json(result);
+    })
+  })
+
   app.post('/', function(req, res){
     const visitedPoisCollection = db.collection('visitedPois');
+
+
+
     const visitedPoisToSave = req.body;
     // console.log(req.body.id.substring(4));
     // const objectID = new ObjectID(req.body.id.substring(4));
@@ -39,11 +54,12 @@ database.connect("mongodb://localhost:27017", function(error, client){
   })
 
   app.get('/db/:id', function(req, res){
-    const visitedPoisToGet = req.body;
+    const userPOIs = db.collection('infernal');
+    //const visitedPoisToGet = req.body;
     console.log("ID", req.params.id);
     const objectID = new ObjectID(req.params.id);
     const filterObject = {_id: objectID};
-    visitedPoisToGet.find(filterObject).toArray(function(error, poi){
+    userPOIs.find(filterObject).toArray(function(error, poi){
       if(error){
         console.log("error", error);
         res.status(500);

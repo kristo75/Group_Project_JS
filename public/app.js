@@ -40,6 +40,10 @@ const appStart = function(){
         const marker = Leaflet.marker([lat, long], {icon: newMarkerIcon, riseOnHover: true}).addTo(mymap)
             .bindPopup(poi.name + '\n' + perex, {className: 'popup'});
 
+            const createRequestComplete = function(newPoi){
+              console.log(newPoi);
+            }
+
         marker.addEventListener('click', function(){
           const url = 'https://api.sygictraveldata.com/1.0/en/places/' + poi.id
           const request = new XMLHttpRequest();
@@ -53,19 +57,36 @@ const appStart = function(){
             console.log('userLocation: ' +userLocation);
             console.log('distance: '+distance);
             console.log('poilatlng: ' +poilatlng);
-         const createRequestComplete = function(newPoi){
-           console.log(newPoi);
-         }
-            if(distance <= 50){
 
-              const getRequest = new Request('http://localhost:3000/db/' + poi.id)
-              getRequest.get(function(){
-                if(getRequest.status !== 200){
-                  const poiToSend = poi;
-                  const saveRequest = new Request('http://localhost:3000/');
-                  saveRequest.post(poiToSend, createRequestComplete);
+            if(distance <= 50){
+              console.log('sending get request');
+              const getRequest = new Request('http://localhost:3000/db');
+              getRequest.get(function(allPOIs){
+
+                  //console.log(allPOIs);
+                //   for (let savedPOI of allPOIs ) {
+                //     console.log(savedPOI.);
+                //
+                // }
+              const alreadyInDB = allPOIs.reduce(function(incrementor, userPOI){
+                // console.log(userPOI.id, poi.id);
+                 return incrementor || (userPOI.id == poi.id);
+               }, false)
+
+                if (!alreadyInDB) {
+                  const postRequest = new Request('http://localhost:3000');
+                  postRequest.post(poi, createRequestComplete);
                 }
               });
+              // const postRequest = new Request('http://localhost:3000');
+              // postRequest.post(poi, createRequestComplete)
+              // getRequest.get(function(){
+              //   if(getRequest.status !== 200){
+              //     const poiToSend = poi;
+              //     const saveRequest = new Request('http://localhost:3000/');
+              //     saveRequest.post(poiToSend, createRequestComplete);
+              //   }
+              // });
 
               if(description == null){
                 description = poi.name;
