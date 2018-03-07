@@ -2,8 +2,10 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const database = require('mongodb').MongoClient;
+const bodyParser = require('body-parser');
 
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 database.connect("mongodb://localhost:27017", function(error, client){
   if(error){

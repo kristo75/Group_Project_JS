@@ -1,13 +1,13 @@
 const Leaflet = require('leaflet');
 const keys = require('./keys.js');
-const Places = require('./places.js')
+const Places = require('./places.js');
+const Request = require('./request.js')
 
 // var map;
 // var service;
 // var infowindow;
 // let zoom;
 let userLocation;
-
 
 const appStart = function(){
 
@@ -53,9 +53,14 @@ const appStart = function(){
             console.log('userLocation: ' +userLocation);
             console.log('distance: '+distance);
             console.log('poilatlng: ' +poilatlng);
-
+         const createRequestComplete = function(newPoi){
+           console.log(newPoi);
+         }
             if(distance <= 50){
-              
+              const poiToSend = poi;
+              const mongoRequest = new Request('http://localhost:3000/');
+              mongoRequest.post(poiToSend, createRequestComplete);
+
               if(description == null){
                 description = poi.name;
               } else {
