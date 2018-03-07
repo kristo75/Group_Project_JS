@@ -5,7 +5,7 @@ const Places = require('./places.js')
 var map;
 var service;
 var infowindow;
-
+let zoom;
 
 
 const appStart = function(){
@@ -34,7 +34,7 @@ const appStart = function(){
         }
 
         const marker = Leaflet.marker([lat, long], {icon: newMarkerIcon}).addTo(mymap)
-            .bindPopup(poi.name + '\n' + perex).openPopup();
+            .bindPopup(poi.name + '\n' + perex);
 
         marker.addEventListener('click', function(){
           const url = 'https://api.sygictraveldata.com/1.0/en/places/' + poi.id
@@ -73,27 +73,36 @@ const appStart = function(){
         // popupAnchor:  [15, -20] // point from which the popup should open relative to the iconAnchor
     });
 
-    mymap.locate({setView: true, maxZoom: 16, watch: true});
+    mymap.locate({setView: false, maxZoom: 15, watch: true});
 
+// 55.946927, -3.201912
 
 const poi = new Places();
+let hasSetInitialView = false;
 
 let userMarker = Leaflet.marker([0,0],{icon: newMarkerIcon}).addTo(mymap);
 // let userCircle = Leaflet.circle([0,0], 20).addTo(mymap);
 
-    function onLocationFound(e) {
-        // const radius = e.accuracy / 2;
 
-        userMarker.setLatLng(e.latlng);
-        // userCircle.setLatLng(e.latlng);
+function onLocationFound(e) {
 
-        console.log("hasplaces before:" + poi.hasPlaces);
-        if(!poi.hasPlaces){
-          poi.getPlacesPOIs(e.latlng, callback);
-        }
-        console.log("hasplaces after:" + poi.hasPlaces);
-      }
-      mymap.on('locationfound', onLocationFound);
-    }
+  if(!hasSetInitialView){
+    mymap.setView(e.latlng, 15);
+  }
+
+  hasSetInitialView = true;
+
+  // const radius = e.accuracy / 2;
+  userMarker.setLatLng(e.latlng);
+  mymap.panTo(e.latlng);
+  // userCircle.setLatLng(e.latlng);
+
+  if(!poi.hasPlaces){
+    poi.getPlacesPOIs(e.latlng, callback);
+  }
+}
+mymap.on('locationfound', onLocationFound);
+
+}
 
 document.addEventListener("DOMContentLoaded", appStart);

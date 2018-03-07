@@ -5,6 +5,7 @@ const Places = function() {
   this.displayPOIS = this.displayPOIS.bind(this);
   this.poisToDisplay = [];
   this.hasPlaces = false;
+
 }
 
 
@@ -13,7 +14,6 @@ Places.prototype.getPlacesPOIs = function(latLong, callback){
   this.hasPlaces = true;
 
   const poiTypes = ['sightseeing'];
-  console.log(poiTypes);
 
   const lat = latLong.lat;
   const lon = latLong.lng;
