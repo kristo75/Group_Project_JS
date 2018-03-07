@@ -16,14 +16,17 @@ const appStart = function(){
       poisToDisplay.forEach(function(poi){
         let newMarkerIcon;
         if(poi.thumbnail_url != null){
-          newMarkerIcon = Leaflet.icon({
-            iconUrl: poi.thumbnail_url,
-            iconSize:     [100, 100] // size of the icon
+          newMarkerIcon = Leaflet.divIcon({
+            html: `<img  class= "marker-icon" src=${poi.thumbnail_url}/>`
+            // className: 'marker-icon'
+            // iconSize:     [100, 100] // size of the icon
           });
         } else {
           newMarkerIcon = Leaflet.icon({
-            iconUrl: 'marker.png',
-            iconSize:     [60, 120]// size of the icon
+              iconUrl: 'marker.png',
+              iconSize:     [60, 120] // size of the icon
+              // iconAnchor:   [50, 1], // point of the icon which will correspond to marker's location
+              // popupAnchor:  [15, -20] // point from which the popup should open relative to the iconAnchor
           });
         }
         const lat = poi.location.lat;
