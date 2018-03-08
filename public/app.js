@@ -25,9 +25,10 @@ const initialiseUI = function(){
 
       allPOIs.forEach(function(poi){
         const poiInfo = document.createElement('p');
-        poiInfo.innerHTML = poi.name;
+        poiInfo.innerHTML = `${poi.name} in ${poi.name_suffix}`;
 
         modalContent.appendChild(poiInfo);
+
 
         modal.style.display = "block";
       })
