@@ -1,19 +1,67 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 
 html body #map{
-  height: 550px;
-  width: 100%;
+  height: 85vh;
+  width: 90%;
+  margin: auto;
+}
+
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: #d7d7d7;
+  /* background-color: #cad2e4; */
+}
+
+nav{
+  line-height: 40px;
+  height: 40px;
+  overflow: hidden;
+  float: right;
+  background-color: #0b3c5d;
+  padding: 20px;
+}
+
+header{
+  height: 80px;
+  float: left;
+  text-align: center;
+  padding-left: 20px;
+}
+
+h1{
+  margin-top: 16px;
+}
+
+button{
+  margin-top: -10px;
+  height: 50px;
+  width: 250px;
+  background-color: white;
+  border: none;
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.header-container{
+  height: 80px;
+  background-color: #328cc1;
+  width: 90%;
+  margin: auto;
 }
 
 .marker-icon {
   height: 100px;
   width: 100px;
-  border: 2px solid purple;
+  border: 2px solid #0b3c5d;
   border-radius: 50%;
 }
 
 .popup {
-  font-family: 'Roboto Condensed', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 20px;
   font-weight: bold;
 }
@@ -41,16 +89,6 @@ html body #map{
     width: 80%; /* Could be more or less, depending on screen size */
 }
 
-hr {
-    display: block;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-    margin-left: auto;
-    margin-right: auto;
-    border-style: inset;
-    border-width: 2px;
-}
-
 /* The Close Button */
 .close {
     color: #aaa;
@@ -65,3 +103,8 @@ hr {
     text-decoration: none;
     cursor: pointer;
 }
+
+/* .leaflet-marker-icon, .leaflet-div-icon, .leaflet-zoom-animated, .leaflet-interactive{
+  height: 100px;
+  width: 100px;
+} */
