@@ -96,14 +96,7 @@ const appStart = function(){
               console.log('sending get request');
               const getRequest = new Request('http://localhost:3000/db');
               getRequest.get(function(allPOIs){
-
-                  //console.log(allPOIs);
-                //   for (let savedPOI of allPOIs ) {
-                //     console.log(savedPOI.);
-                //
-                // }
               const alreadyInDB = allPOIs.reduce(function(incrementor, userPOI){
-                // console.log(userPOI.id, poi.id);
                  return incrementor || (userPOI.id == poi.id);
                }, false)
 
@@ -112,22 +105,43 @@ const appStart = function(){
                   postRequest.post(poi, createRequestComplete);
                 }
               });
-              // const postRequest = new Request('http://localhost:3000');
-              // postRequest.post(poi, createRequestComplete)
-              // getRequest.get(function(){
-              //   if(getRequest.status !== 200){
-              //     const poiToSend = poi;
-              //     const saveRequest = new Request('http://localhost:3000/');
-              //     saveRequest.post(poiToSend, createRequestComplete);
-              //   }
-              // });
+
+              const modal = document.getElementById('myModal');
+              const modalContent = document.querySelector('.modal-content');
+            //  const closeModal = document.getElementsByClassName("close")[0];
+              modalContent.innerHTML = "";
+              const poiName = document.createElement('h2');
+              poiName.innerHTML = poi.name;
+              modalContent.appendChild(poiName);
+
+              if (!(poi.thumbnail_url == null)) {
+                const poiImage = document.createElement('img');
+                poiImage.src = poi.thumbnail_url;
+                poiImage.alt = "A picture of " + poi.name;
+                modalContent.appendChild(poiImage);
+              }
+
 
               if(description == null){
                 description = poi.name;
               } else {
                 description = poi.name + ' ' + description.text
               }
-              marker._popup.setContent(description);
+              const poiDescription = document.createElement('p');
+              poiDescription.innerHTML = description;
+
+              // marker._popup.setContent(description);
+              modalContent.appendChild(poiDescription)
+
+              modal.style.display="block";
+            //   closeModal.onclick = function() {
+            //     modal.style.display = "none";
+            // }
+            window.onclick = function(event) {
+              if (event.target == modal) {
+                  modal.style.display = "none";
+              }
+            }
             }
 
         }.bind(this));
