@@ -221,6 +221,20 @@ function onLocationFound(e) {
       console.log(userCity);
       //console.log(city.data.places[0].name);
       const addToModal = function(weather){
+        const weatherDescription = document.createElement('p');
+        weatherDescription.innerHTML = `It is currently ${weather.weather[0].description}`;
+        modalContent.appendChild(weatherDescription);
+
+        //const weatherPic = new Request(`http://api.openweathermap.org/img/w/10d.png`)
+        //weatherPic.get(function(weatherIcon){
+          const weatherImage = document.createElement('img');
+          weatherImage.src = `http://openweathermap.org/img/w/${weather.weather[0].icon}.png`
+          modalContent.appendChild(weatherImage);
+          const temperature = document.createElement('p');
+          temperature.innerHTML = `The current temperature is: ${weather.main.temp}`;
+          modalContent.appendChild(temperature);
+      //  })
+
         //console.log(weather);
       }
       const openWeatherReq = new Request(`https://api.openweathermap.org/data/2.5/weather?q=${city.data.places[0].name}&APPID=${keys.openWeather}`);
