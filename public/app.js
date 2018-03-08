@@ -8,6 +8,7 @@ const Request = require('./request.js');
 // var infowindow;
 // let zoom;
 let userLocation;
+let howToUseBtn;
 
 const initialiseUI = function(){
   const userVisitedPoisBtn = document.querySelector('#userVisitedPoisBtn');
@@ -44,10 +45,8 @@ window.onclick = function(event) {
   }
 }
 
-  const howToUsebtn = document.querySelector('#howToUseBtn');
-  howToUsebtn.addEventListener('click', function(){
+  howToUsebtn = document.querySelector('#howToUseBtn');
 
-  });
 }
 const appStart = function(){
 
@@ -194,6 +193,43 @@ let userMarker = Leaflet.marker([0,0],{icon: newMarkerIcon}).addTo(mymap);
 
 
 function onLocationFound(e) {
+
+  howToUsebtn.addEventListener('click', function(){
+    const modal = document.getElementById('myModal');
+    const getCity = new Request('https://api.sygictravelapi.com/1.0/en/places/detect-parents?location=48.858702,2.293805');
+    //request.setRequestHeader('x-api-key', keys.sygicTravel)
+    const closeModal = document.getElementsByClassName("close")[0];
+    const modalContent = document.querySelector('.modal-content')
+    modalContent.innerHTML = "";
+    const modalHeader = document.createElement('h2')
+    modalHeader.innerHTML="HOW TO PLAY";
+    modalContent.appendChild(modalHeader);
+    const modalP = document.createElement('p');
+    modalP.innerHTML = 'When you launch the app, the geo locator will display your start position and will display five random locations for you to explore.<br>  The geo locator wil track your journey on the map and once you are within a 50 meter radius of a point of interest, click on the image icon to display detailed information about the point of interest.</br> This point of interest wil be automatically added to your list of places visited.  To display this list, please click on the WHERE HAVE I BEEN button.<br> To get a preview of a point of interest, click on the image icon.</br> <br>  To exit from a pop up box, please click anywhere on the map.</b>'
+    modalContent.appendChild(modalP);
+    modal.style.display = "block";
+    window.onclick = function(event) {
+      if (event.target == modal) {
+          modal.style.display = "none";
+      }
+    }
+
+    const addToModalCity = function(city){
+      const userCity = document.createElement('h4');
+      userCity.innerText = `You are currently in ${city.data.places[0].name}!`
+      modalContent.appendChild(userCity);
+      console.log(userCity);
+      //console.log(city.data.places[0].name);
+      const addToModal = function(weather){
+        //console.log(weather);
+      }
+      const openWeatherReq = new Request(`https://api.openweathermap.org/data/2.5/weather?q=${city.data.places[0].name}&APPID=${keys.openWeather}`);
+      openWeatherReq.get(addToModal);
+    }
+    getCity.get(addToModalCity, keys.sygicTravel)
+
+
+  });
 
   if(!hasSetInitialView){
     mymap.setView(e.latlng, 15);
