@@ -74,7 +74,7 @@ const appStart = function(){
       }
 
       const marker = Leaflet.marker([lat, long], {icon: newMarkerIcon, riseOnHover: true}).addTo(mymap)
-      .bindPopup(poi.name + '\n' + perex, {className: 'popup'});
+      .bindPopup('<p>' + poi.name + '</p><p>' + perex + '</p>', {className: 'popup'});
 
       const createRequestComplete = function(newPoi){
         console.log(newPoi);
@@ -157,7 +157,7 @@ const appStart = function(){
   Leaflet.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
     maxZoom: 18,
-    id: 'mapbox.outdoors',
+    id: 'mapbox.high-contrast',
     accessToken: keys.mapbox
   }).addTo(mymap);
 
@@ -197,15 +197,15 @@ const appStart = function(){
       const modal = document.getElementById('myModal');
       const getCity = new Request('https://api.sygictravelapi.com/1.0/en/places/detect-parents?location=' + e.latlng.lat + ',' + e.latlng.lng);
       const closeModal = document.getElementsByClassName("close")[0];
-      const modalContent = document.querySelector('.modal-content')
-      modalContent.innerHTML = "";
+      const modalContent = document.querySelector('.modal-content');
+
       const modalHeader = document.createElement('h2')
       modalHeader.innerHTML="HOW TO PLAY";
       modalContent.appendChild(modalHeader);
       const modalP = document.createElement('p');
       modalP.innerHTML = 'When you launch the app, the geo locator will display your start position and will display five random locations for you to explore.<br><br>'
-      + 'The geo locator wil track your journey on the map and once you are within a 50 meter radius of a point of interest, click on the image icon to display detailed information about the point of interest.<br><br>'
-      + 'This point of interest wil be automatically added to your list of places visited. To display this list, please click on the WHERE HAVE I BEEN button.<br><br>'
+      + 'The geo locator will track your journey on the map and once you are within a 50 meter radius of a point of interest, click on the image icon to display detailed information about the point of interest.<br><br>'
+      + 'This point of interest will be automatically added to your list of places visited. To display this list, please click on the WHERE HAVE I BEEN button.<br><br>'
       + 'To get a preview of a point of interest, click on the image icon.</br> <br>  To exit from a pop up box, please click anywhere on the map.</b>'
       modalContent.appendChild(modalP);
       modal.style.display = "block";
@@ -215,26 +215,27 @@ const appStart = function(){
         }
       }
 
+
       const addToModalCity = function(city){
+        const weatherInfo = document.querySelector('.weather-data');
+        weatherInfo.innerHTML = "";
         const userCity = document.createElement('h4');
-        userCity.innerText = `You are currently in ${city.data.places[0].name}!`
-        modalContent.appendChild(userCity);
-        console.log(userCity);
-        //console.log(city.data.places[0].name);
+
         const addToModal = function(weather){
+          userCity.innerText = `You are currently in ${city.data.places[0].name}!`
+          weatherInfo.appendChild(userCity);
           const weatherDescription = document.createElement('p');
           weatherDescription.innerHTML = `It is currently ${weather.weather[0].description}`;
-          modalContent.appendChild(weatherDescription);
+          weatherInfo.appendChild(weatherDescription);
 
           const weatherImage = document.createElement('img');
           weatherImage.src = `http://openweathermap.org/img/w/${weather.weather[0].icon}.png`
-          modalContent.appendChild(weatherImage);
+          weatherInfo.appendChild(weatherImage);
           const temperature = document.createElement('p');
-          console.log("Temp: " + weather.main.temp);
           const tempinCelcius = Math.round(weather.main.temp - 273.15);
           temperature.innerHTML = `The current temperature is: ${tempinCelcius} degC`;
-          modalContent.appendChild(temperature);
-
+          weatherInfo.appendChild(temperature);
+          modalContent.appendChild(weatherInfo);
         }
         const openWeatherReq = new Request(`https://api.openweathermap.org/data/2.5/weather?q=${city.data.places[0].name}&APPID=${keys.openWeather}`);
         openWeatherReq.get(addToModal);
