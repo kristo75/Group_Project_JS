@@ -1,7 +1,7 @@
 const Leaflet = require('leaflet');
 const keys = require('./keys.js');
 const Places = require('./places.js');
-const Request = require('./request.js')
+const Request = require('./request.js');
 
 // var map;
 // var service;
@@ -9,9 +9,29 @@ const Request = require('./request.js')
 // let zoom;
 let userLocation;
 
+const initialiseUI = function(){
+  const userVisitedPoisBtn = document.querySelector('#userVisitedPoisBtn');
+  const modal = document.getElementById('myModal');
+  const closeModal = document.getElementsByClassName("close")[0];
+  userVisitedPoisBtn.addEventListener('click', function(){
+    const getRequest = new Request('http://localhost:3000/db');
+    getRequest.get(function(allPOIs){
+      console.log(allPOIs);
+      modal.style.display = "block";
+    })
+  })
+  closeModal.onclick = function() {
+    modal.style.display = "none";
+}
+window.onclick = function(event) {
+  if (event.target == modal) {
+      modal.style.display = "none";
+  }
+}
+}
 const appStart = function(){
 
-
+  initialiseUI();
     const callback = function(poisToDisplay){
 
       poisToDisplay.forEach(function(poi){
@@ -111,6 +131,12 @@ const appStart = function(){
         accessToken: keys.mapbox
     }).addTo(mymap);
 
+    const userVisitedPoisBtn = document.querySelector('#userVisitedPoisBtn');
+
+    userVisitedPoisBtn.addEventListener('click', function(){
+
+});
+
     const newMarkerIcon = Leaflet.icon({
         iconUrl: 'user_marker.png',
         // iconSize:     [60, 120] // size of the icon
@@ -119,6 +145,7 @@ const appStart = function(){
     });
 
     mymap.locate({setView: false, maxZoom: 15, watch: true});
+
 
 // CodeClan:
 // 55.946927, -3.201912
