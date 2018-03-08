@@ -43,6 +43,11 @@ window.onclick = function(event) {
       modal.style.display = "none";
   }
 }
+
+  const howToUsebtn = document.querySelector('#howToUseBtn');
+  howToUsebtn.addEventListener('click', function(){
+
+  });
 }
 const appStart = function(){
 
