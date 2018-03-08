@@ -16,8 +16,22 @@ const initialiseUI = function(){
   userVisitedPoisBtn.addEventListener('click', function(){
     const getRequest = new Request('http://localhost:3000/db');
     getRequest.get(function(allPOIs){
+      const modalContent = document.querySelector('.modal-content')
+      modalContent.innerHTML = "";
+      const modalHeader = document.createElement('h2')
+      modalHeader.innerHTML="Saved points of interest";
+      modalContent.appendChild(modalHeader);
       console.log(allPOIs);
-      modal.style.display = "block";
+
+      allPOIs.forEach(function(poi){
+        const poiInfo = document.createElement('p');
+        poiInfo.innerHTML = poi.name;
+
+        modalContent.appendChild(poiInfo);
+
+        modal.style.display = "block";
+      })
+
     })
   })
   closeModal.onclick = function() {
