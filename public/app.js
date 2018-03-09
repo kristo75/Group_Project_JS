@@ -157,9 +157,15 @@ const appStart = function(){
   Leaflet.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
     maxZoom: 18,
-    id: 'mapbox.high-contrast',
+    id: 'mapbox.emerald',
     accessToken: keys.mapbox
   }).addTo(mymap);
+
+  // mapbox.streets
+  //mapbox.outdoors
+  //mapbox.emerald
+  //mapbox.outdoors
+
 
   const userVisitedPoisBtn = document.querySelector('#userVisitedPoisBtn');
 
@@ -198,7 +204,7 @@ const appStart = function(){
       const getCity = new Request('https://api.sygictravelapi.com/1.0/en/places/detect-parents?location=' + e.latlng.lat + ',' + e.latlng.lng);
       const closeModal = document.getElementsByClassName("close")[0];
       const modalContent = document.querySelector('.modal-content');
-
+      modalContent.innerHTML = "";
       const modalHeader = document.createElement('h2')
       modalHeader.innerHTML="HOW TO PLAY";
       modalContent.appendChild(modalHeader);
@@ -218,7 +224,7 @@ const appStart = function(){
 
       const addToModalCity = function(city){
         const weatherInfo = document.querySelector('.weather-data');
-        weatherInfo.innerHTML = "";
+        // weatherInfo.innerHTML = "";
         const userCity = document.createElement('h4');
 
         const addToModal = function(weather){
@@ -238,7 +244,7 @@ const appStart = function(){
           modalContent.appendChild(weatherInfo);
         }
         const openWeatherReq = new Request(`https://api.openweathermap.org/data/2.5/weather?q=${city.data.places[0].name}&APPID=${keys.openWeather}`);
-        openWeatherReq.get(addToModal);
+        // openWeatherReq.get(addToModal);
       }
       getCity.get(addToModalCity, keys.sygicTravel)
 
