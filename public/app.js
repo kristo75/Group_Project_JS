@@ -134,8 +134,9 @@
           }.bind(this), keys.sygicTravel);
           // request.post();
         })
-      })
+      });
     }
+
 
     const mymap = new MapWrapper('map');
 
@@ -160,55 +161,49 @@
 
       howToUseBtn = document.querySelector('#howToUseBtn');
 
-      howToUseBtn.addEventListener('click', function(){
-        const modal = document.getElementById('myModal');
-        const getCity = new Request('https://api.sygictravelapi.com/1.0/en/places/detect-parents?location=' + e.latlng.lat + ',' + e.latlng.lng);
-        const closeModal = document.getElementsByClassName("close")[0];
-        const modalContent = document.querySelector('.modal-content');
-        modalContent.innerHTML = "";
-        const modalHeader = document.createElement('h2');
-        modalHeader.innerHTML="HOW TO PLAY";
-        modalContent.appendChild(modalHeader);
-        const modalP = document.createElement('p');
-        modalP.innerHTML = 'When you launch the app, the geo locator will display your start position and will display five random locations for you to explore.<br><br>'
-        + 'The geo locator wil track your journey on the map and once you are within a 50 meter radius of a point of interest, click on the image icon to display detailed information about the point of interest.<br><br>'
-        + 'This point of interest wil be automatically added to your list of places visited. To display this list, please click on the WHERE HAVE I BEEN button.<br><br>'
-        + 'To get a preview of a point of interest, click on the image icon.</br> <br>  To exit from a pop up box, please click anywhere on the map.</b>'
-        modalContent.appendChild(modalP);
-        modal.style.display = "block";
-        window.onclick = function(event) {
-          if (event.target == modal) {
-            modal.style.display = "none";
-          }
+    howToUseBtn.addEventListener('click', function(){
+      const modal = document.getElementById('myModal');
+      const getCity = new Request('https://api.sygictravelapi.com/1.0/en/places/detect-parents?location=' + e.latlng.lat + ',' + e.latlng.lng);
+      const closeModal = document.getElementsByClassName("close")[0];
+      const modalContent = document.querySelector('.modal-content');
+
+      const modalHeader = document.createElement('h2')
+      modalHeader.innerHTML="HOW TO PLAY";
+      modalContent.appendChild(modalHeader);
+      const modalP = document.createElement('p');
+      modalP.innerHTML = 'When you launch the app, the geo locator will display your start position and will display five random locations for you to explore.<br><br>'
+      + 'The geo locator will track your journey on the map and once you are within a 50 meter radius of a point of interest, click on the image icon to display detailed information about the point of interest.<br><br>'
+      + 'This point of interest will be automatically added to your list of places visited. To display this list, please click on the WHERE HAVE I BEEN button.<br><br>'
+      + 'To get a preview of a point of interest, click on the image icon.</br> <br>  To exit from a pop up box, please click anywhere on the map.</b>'
+      modalContent.appendChild(modalP);
+      modal.style.display = "block";
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
         }
 
-        const addToModalCity = function(city){
-          const userCity = document.createElement('h4');
+      const addToModalCity = function(city){
+        const weatherInfo = document.querySelector('.weather-data');
+        weatherInfo.innerHTML = "";
+        const userCity = document.createElement('h4');
+
+        const addToModal = function(weather){
           userCity.innerText = `You are currently in ${city.data.places[0].name}!`
-          modalContent.appendChild(userCity);
-          console.log(userCity);
-          //console.log(city.data.places[0].name);
-          const addToModal = function(weather){
-            const weatherDescription = document.createElement('p');
-            weatherDescription.innerHTML = `It is currently ${weather.weather[0].description}`;
-            modalContent.appendChild(weatherDescription);
+          weatherInfo.appendChild(userCity);
+          const weatherDescription = document.createElement('p');
+          weatherDescription.innerHTML = `It is currently ${weather.weather[0].description}`;
+          weatherInfo.appendChild(weatherDescription);
 
-            const weatherImage = document.createElement('img');
-            weatherImage.src = `http://openweathermap.org/img/w/${weather.weather[0].icon}.png`
-            modalContent.appendChild(weatherImage);
-            const temperature = document.createElement('p');
-            console.log("Temp: " + weather.main.temp);
-            const tempinCelcius = Math.round(weather.main.temp - 273.15);
-            temperature.innerHTML = `The current temperature is: ${tempinCelcius} degC`;
-            modalContent.appendChild(temperature);
-
-          }
-          const openWeatherReq = new Request(`https://api.openweathermap.org/data/2.5/weather?q=${city.data.places[0].name}&APPID=${keys.openWeather}`);
-          openWeatherReq.get(addToModal);
+          const weatherImage = document.createElement('img');
+          weatherImage.src = `http://openweathermap.org/img/w/${weather.weather[0].icon}.png`
+          weatherInfo.appendChild(weatherImage);
+          const temperature = document.createElement('p');
+          const tempinCelcius = Math.round(weather.main.temp - 273.15);
+          temperature.innerHTML = `The current temperature is: ${tempinCelcius} degC`;
+          weatherInfo.appendChild(temperature);
+          modalContent.appendChild(weatherInfo);
         }
         getCity.get(addToModalCity, keys.sygicTravel)
-
-
       });
 
       if(!hasSetInitialView){

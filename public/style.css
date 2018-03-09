@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Black+Ops+One|Bungee+Outline|Faster+One');
 
 html body #map{
   height: 85vh;
@@ -25,6 +26,8 @@ nav{
 }
 
 header{
+  font-family: 'Bungee Outline';
+  color: white;
   height: 80px;
   float: left;
   text-align: center;
@@ -104,7 +107,9 @@ button{
     cursor: pointer;
 }
 
-/* .leaflet-marker-icon, .leaflet-div-icon, .leaflet-zoom-animated, .leaflet-interactive{
-  height: 100px;
-  width: 100px;
-} */
+.leaflet-marker-icon.leaflet-div-icon.leaflet-zoom-animated.leaflet-interactive{
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #0b3c5d;
+}
