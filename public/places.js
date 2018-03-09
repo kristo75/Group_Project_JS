@@ -37,13 +37,14 @@ Places.prototype.getPlacesPOIs = function(latLong, callback){
   request.addEventListener('load', function(){
     const jsonString = request.responseText
     this.pois= JSON.parse(jsonString).data.places;
+    this.displayPOIS();
+    callback(this.poisToDisplay);
 }.bind(this));
   request.send();
 
-  setTimeout(function(){
-    this.displayPOIS();
-    callback(this.poisToDisplay);
-  }.bind(this), 1000);
+  // setTimeout(function(){
+  //
+  // }.bind(this), 1000);
 }
 
 
