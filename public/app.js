@@ -69,7 +69,7 @@
         const createRequestComplete = function(newPoi){
           console.log(newPoi);
         }
-        
+
         mymap.locationListener('click', function(){
           mymap.locate(false, 15, true);
           const url = 'https://api.sygictraveldata.com/1.0/en/places/' + poi.id;
@@ -77,8 +77,8 @@
           request.get(function(responseBody){
             let description = responseBody.data.place.description;
             const poilatlng = Leaflet.latLng(poi.location.lat, poi.location.lng);
-            console.log(mymap.getUserLocation());
             const distance = mymap.getUserLocation().distanceTo(poilatlng);
+            console.log(poilatlng);
 
             if(distance <= 50){
               const getRequest = new Request('http://localhost:3000/db');
@@ -95,7 +95,7 @@
 
               const modal = document.getElementById('myModal');
               const modalContent = document.querySelector('.modal-content');
-              //  const closeModal = document.getElementsByClassName("close")[0];
+              const closeModal = document.getElementsByClassName("close")[0];
               modalContent.innerHTML = "";
               const poiName = document.createElement('h2');
               poiName.innerHTML = poi.name;
