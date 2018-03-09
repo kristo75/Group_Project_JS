@@ -2,7 +2,7 @@ const Request = function(url){
   this.url = url;
 }
 
-Request.prototype.get = function(apiKey, callback){
+Request.prototype.get = function(callback, apiKey){
   const request = new XMLHttpRequest();
   request.open('GET', this.url);
   if (apiKey){

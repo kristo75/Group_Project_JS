@@ -4,7 +4,6 @@
   const Request = require('./request.js');
   const MapWrapper = require('./mapWrapper.js');
 
-  let userLocation;
   let howToUseBtn;
 
   const initialiseUI = function(){
@@ -70,14 +69,16 @@
         const createRequestComplete = function(newPoi){
           console.log(newPoi);
         }
-
+        
         mymap.locationListener('click', function(){
+          mymap.locate(false, 15, true);
           const url = 'https://api.sygictraveldata.com/1.0/en/places/' + poi.id;
           const request = new Request(url);
-          request.get(keys.sygicTravel, function(responseBody){
-            let description = JSON.parse(responseBody).data.place.description;
+          request.get(function(responseBody){
+            let description = responseBody.data.place.description;
             const poilatlng = Leaflet.latLng(poi.location.lat, poi.location.lng);
-            const distance = userLocation.distanceTo(poilatlng);
+            console.log(mymap.getUserLocation());
+            const distance = mymap.getUserLocation().distanceTo(poilatlng);
 
             if(distance <= 50){
               const getRequest = new Request('http://localhost:3000/db');
@@ -130,7 +131,7 @@
               }
             }
 
-          }.bind(this));
+          }.bind(this), keys.sygicTravel);
           // request.post();
         })
       })

@@ -10,12 +10,22 @@
         id: 'mapbox.outdoors',
         accessToken: keys.mapbox
       }).addTo(this.map);
+    this.userLocation;
     this.userMarker;
     this.locationMarkers = [];
   }
 
   MapWrapper.prototype.locate = function(view, zoom, watch){
     this.map.locate({setView: view, maxZoom: zoom, watch: watch});
+    function onLocationFound(e){
+      console.log(e.latlng);
+      this.userLocation = e.latlng;
+    };
+    this.map.on('locationfound', onLocationFound);
+  }
+
+  MapWrapper.prototype.getUserLocation = function(){
+    return this.map.userLocation;
   }
 
   MapWrapper.prototype.createUserMarker = function(latLng, icon){
@@ -34,7 +44,7 @@
   }
 
   MapWrapper.prototype.onEvent = function(event, callback){
-    this.map.on(event, callback);
+    this.map.addEventListener(event, callback);
   }
 
   MapWrapper.prototype.setInitialView = function(latLng, zoom){
