@@ -2,6 +2,8 @@ const Leaflet = require('leaflet');
 const keys = require('./keys.js');
 const Places = require('./places.js');
 const Request = require('./request.js');
+const User = require('./user.js')
+const Map = require('./map.js')
 
 let userLocation;
 let howToUseBtn;
@@ -48,7 +50,7 @@ const initialiseUI = function(){
 const appStart = function(){
 
   initialiseUI();
-  const callback = function(poisToDisplay){
+  const addPOIMarkersToMap = function(poisToDisplay){
 
     poisToDisplay.forEach(function(poi){
       let newMarkerIcon;
@@ -73,7 +75,7 @@ const appStart = function(){
         perex = "";
       }
 
-      const marker = Leaflet.marker([lat, long], {icon: newMarkerIcon, riseOnHover: true}).addTo(mymap)
+      const marker = Leaflet.marker([lat, long], {icon: newMarkerIcon, riseOnHover: true}).addTo(mymap.map)
       .bindPopup('<p>' + poi.name + '</p><p>' + perex + '</p>', {className: 'popup'});
 
       const createRequestComplete = function(newPoi){
@@ -152,35 +154,31 @@ const appStart = function(){
     })
   }
 
-  const mymap = Leaflet.map('map');
-
-  Leaflet.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-    maxZoom: 18,
-    id: 'mapbox.emerald',
-    accessToken: keys.mapbox
-  }).addTo(mymap);
-
+  const mymap = new Map('map');
+  const user = new User();
+  const sygicWrapper = new Places();
+  const userMarker = mymap.addUserMarker({lat: 0, lng: 0}, 'user_marker.png', [50, 100]);
+  mymap.map.locate({setView: false, maxZoom: 15, watch: true});
   // mapbox.streets
   //mapbox.outdoors
   //mapbox.emerald
   //mapbox.outdoors
 
+  //this does nothign
+  // const userVisitedPoisBtn = document.querySelector('#userVisitedPoisBtn');
+  //
+  // userVisitedPoisBtn.addEventListener('click', function(){
+  //
+  // });
+  //  const userMarker = mymap.buildIconMarker('user_marker.png', [50,100])
+  // const newMarkerIcon = Leaflet.icon({
+  //   iconUrl: 'user_marker.png',
+  //   // iconSize:     [60, 120] // size of the icon
+  //   iconAnchor:   [50, 100] // point of the icon which will correspond to marker's location
+  //   // popupAnchor:  [15, -20] // point from which the popup should open relative to the iconAnchor
+  // });
 
-  const userVisitedPoisBtn = document.querySelector('#userVisitedPoisBtn');
-
-  userVisitedPoisBtn.addEventListener('click', function(){
-
-  });
-
-  const newMarkerIcon = Leaflet.icon({
-    iconUrl: 'user_marker.png',
-    // iconSize:     [60, 120] // size of the icon
-    iconAnchor:   [50, 100] // point of the icon which will correspond to marker's location
-    // popupAnchor:  [15, -20] // point from which the popup should open relative to the iconAnchor
-  });
-
-  mymap.locate({setView: false, maxZoom: 15, watch: true});
+  //const userInitialLocation = mymap.geolocate({setView: false, maxZoom: 15, watch: true});
 
 
   // CodeClan:
@@ -188,15 +186,16 @@ const appStart = function(){
   // New York:
   // 40.7751012,-73.9767428
 
-  const poi = new Places();
-  let hasSetInitialView = false;
 
-  let userMarker = Leaflet.marker([0,0],{icon: newMarkerIcon}).addTo(mymap);
+
+
+  //let userLocation = mymap.addUserMarker(userInitialLocation, 'user_marker.png', [50,100]);
+
+  //let userMarker = Leaflet.marker([0,0],{icon: newMarkerIcon}).addTo(mymap);
   // let userCircle = Leaflet.circle([0,0], 20).addTo(mymap);
 
 
   function onLocationFound(e) {
-
     howToUseBtn = document.querySelector('#howToUseBtn');
 
     howToUseBtn.addEventListener('click', function(){
@@ -250,25 +249,32 @@ const appStart = function(){
 
 
     });
+    console.log(e);
+    user.updateLocation(e.latlng.lat, e.latlng.lng);
+    mymap.updateUserMarker(e.latlng);
 
+    console.log(user.location);
+    let hasSetInitialView = false;
     if(!hasSetInitialView){
-      mymap.setView(e.latlng, 15);
+      mymap.map.setView(user.location, 15);
     }
 
     hasSetInitialView = true;
 
-    userLocation = e.latlng;
+    //userLocation = e.latlng;
     // const radius = e.accuracy / 2;
-    userMarker.setLatLng(e.latlng);
-    mymap.panTo(e.latlng);
+    //  mymap.updateUserMarker(user.location);
+    //userMarker.setLatLng(user.location);
+    mymap.map.panTo(user.location);
     // userCircle.setLatLng(e.latlng);
 
-    if(!poi.hasPlaces){
-      poi.getPlacesPOIs(e.latlng, callback);
+    if(!sygicWrapper.hasPlaces){
+      sygicWrapper.getPlacesPOIs(user.location, addPOIMarkersToMap);
     }
 
   }
-  mymap.on('locationfound', onLocationFound);
+
+  mymap.map.on('locationfound', onLocationFound);
 
 }
 
