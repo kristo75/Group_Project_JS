@@ -28,6 +28,13 @@ const initialiseUI = function(){
         ul.appendChild(poiInfo);
         modal.style.display = "block";
       })
+      if(counter == 100){
+        const video = document.createElement('iframe');
+        video.src = 'https://www.youtube.com/embed/THt5u-i2d9k?rel=0&autoplay=1';
+        video.setAttribute('width', '560');
+        video.setAttribute('height', '315');
+        modalContent.appendChild(video);
+      }
       xptag.innerText = `Current XP Level: ${counter}`;
       modalContent.appendChild(xptag);
       modalContent.appendChild(ul);
