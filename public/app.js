@@ -16,19 +16,21 @@ const initialiseUI = function(){
       const modalContent = document.querySelector('.modal-content')
       modalContent.innerHTML = "";
       const modalHeader = document.createElement('h2')
-      modalHeader.innerHTML="Saved Points of Interest";
+      modalHeader.innerHTML="MY POIMON";
       modalContent.appendChild(modalHeader);
-
+      const xptag = document.createElement('p');
+      let counter = 0;
+      const ul = document.createElement('ul');
       allPOIs.forEach(function(poi){
-        const poiInfo = document.createElement('p');
+        counter += 10;
+        const poiInfo = document.createElement('li');
         poiInfo.innerHTML = `${poi.name} in ${poi.name_suffix}`;
-
-        modalContent.appendChild(poiInfo);
-
-
+        ul.appendChild(poiInfo);
         modal.style.display = "block";
       })
-
+      xptag.innerText = `Current XP Level: ${counter}`;
+      modalContent.appendChild(xptag);
+      modalContent.appendChild(ul);
     })
   })
   closeModal.onclick = function() {
