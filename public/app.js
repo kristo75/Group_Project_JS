@@ -244,7 +244,7 @@ const appStart = function(){
           modalContent.appendChild(weatherInfo);
         }
         const openWeatherReq = new Request(`https://api.openweathermap.org/data/2.5/weather?q=${city.data.places[0].name}&APPID=${keys.openWeather}`);
-        // openWeatherReq.get(addToModal);
+        openWeatherReq.get(addToModal);
       }
       getCity.get(addToModalCity, keys.sygicTravel)
 

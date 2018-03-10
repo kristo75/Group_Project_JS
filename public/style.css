@@ -16,30 +16,42 @@ body {
   /* background-color: #cad2e4; */
 }
 
-nav{
-  line-height: 40px;
-  height: 40px;
-  overflow: hidden;
-  float: right;
-  background-color: #0b3c5d;
-  padding: 20px;
-}
-
-header{
+.header-container{
+  /* height: 40px;
+  line-height: 40px; */
+  background-color: #328cc1;
+  width: 90%;
+  margin: auto;
   font-family: 'Bungee Outline';
   color: white;
-  height: 80px;
-  float: left;
-  text-align: center;
-  padding-left: 20px;
+  /* padding-top: 10px;
+  padding-bottom: 20px; */
 }
 
 h1{
-  margin-top: 16px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+.weather-data{
+  float: right;
+}
+
+.nav-container{
+  width: 90%;
+  margin: auto;
+  background-color: #0b3c5d;
+  line-height: 40px;
+  height: 40px;
+  overflow: hidden;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 button{
   margin-top: -10px;
+  margin-left: 20px;
   height: 50px;
   width: 250px;
   background-color: white;
@@ -47,13 +59,6 @@ button{
   font-family: 'Roboto', sans-serif;
   font-size: 20px;
   font-weight: bold;
-}
-
-.header-container{
-  height: 80px;
-  background-color: #328cc1;
-  width: 90%;
-  margin: auto;
 }
 
 .marker-icon {
