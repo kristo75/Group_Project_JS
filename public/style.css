@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Black+Ops+One|Bungee+Outline|Faster+One');
 
 html body #map{
-  height: 85vh;
+  height: 78vh;
   width: 90%;
   margin: auto;
 }
@@ -13,22 +13,19 @@ body {
   font-size: 20px;
   font-weight: bold;
   background-color: #d7d7d7;
-  /* background-color: #cad2e4; */
 }
 
 .header-container{
-  /* height: 40px;
-  line-height: 40px; */
+  display: flex;
+  justify-content: space-between;
   background-color: #328cc1;
   width: 90%;
   margin: auto;
-  font-family: 'Bungee Outline';
   color: white;
-  /* padding-top: 10px;
-  padding-bottom: 20px; */
 }
 
 h1{
+  font-family: 'Bungee Outline';
   margin-top: 10px;
   margin-bottom: 10px;
   display: inline-block;
@@ -36,9 +33,13 @@ h1{
 
 .weather-data{
   float: right;
+
+  display: flex;
 }
 
 .nav-container{
+  display: flex;
+  justify-content: flex-start;
   width: 90%;
   margin: auto;
   background-color: #0b3c5d;

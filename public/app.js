@@ -18,7 +18,6 @@ const initialiseUI = function(){
       const modalHeader = document.createElement('h2')
       modalHeader.innerHTML="Saved Points of Interest";
       modalContent.appendChild(modalHeader);
-      console.log(allPOIs);
 
       allPOIs.forEach(function(poi){
         const poiInfo = document.createElement('p');
@@ -95,7 +94,6 @@ const appStart = function(){
           console.log('poilatlng: ' +poilatlng);
 
           if(distance <= 50){
-            console.log('sending get request');
             const getRequest = new Request('http://localhost:3000/db');
             getRequest.get(function(allPOIs){
               const alreadyInDB = allPOIs.reduce(function(incrementor, userPOI){
@@ -197,11 +195,37 @@ const appStart = function(){
 
   function onLocationFound(e) {
 
+const getCity = new Request('https://api.sygictravelapi.com/1.0/en/places/detect-parents?location=' + e.latlng.lat + ',' + e.latlng.lng);
+
+
+const addToHeaderCity = function(city){
+  const weatherInfo = document.querySelector('.weather-data');
+  weatherInfo.innerHTML = "";
+  const userCity = document.createElement('p');
+
+  const addToHeader = function(weather){
+    userCity.innerText = `${city.data.places[0].name}`
+    weatherInfo.appendChild(userCity);
+
+    const weatherImage = document.createElement('img');
+    weatherImage.src = `http://openweathermap.org/img/w/${weather.weather[0].icon}.png`
+    weatherInfo.appendChild(weatherImage);
+    const temperature = document.createElement('p');
+    const tempinCelcius = Math.round(weather.main.temp - 273.15);
+    temperature.innerHTML = `${tempinCelcius}°C`;
+    weatherInfo.appendChild(temperature);
+  }
+  const openWeatherReq = new Request(`https://api.openweathermap.org/data/2.5/weather?q=${city.data.places[0].name}&APPID=${keys.openWeather}`);
+  openWeatherReq.get(addToHeader);
+}
+getCity.get(addToHeaderCity, keys.sygicTravel)
+
+
+
     howToUseBtn = document.querySelector('#howToUseBtn');
 
     howToUseBtn.addEventListener('click', function(){
       const modal = document.getElementById('myModal');
-      const getCity = new Request('https://api.sygictravelapi.com/1.0/en/places/detect-parents?location=' + e.latlng.lat + ',' + e.latlng.lng);
       const closeModal = document.getElementsByClassName("close")[0];
       const modalContent = document.querySelector('.modal-content');
       modalContent.innerHTML = "";
@@ -220,33 +244,6 @@ const appStart = function(){
           modal.style.display = "none";
         }
       }
-
-
-      const addToModalCity = function(city){
-        const weatherInfo = document.querySelector('.weather-data');
-        // weatherInfo.innerHTML = "";
-        const userCity = document.createElement('h4');
-
-        const addToModal = function(weather){
-          userCity.innerText = `You are currently in ${city.data.places[0].name}!`
-          weatherInfo.appendChild(userCity);
-          const weatherDescription = document.createElement('p');
-          weatherDescription.innerHTML = `It is currently ${weather.weather[0].description}`;
-          weatherInfo.appendChild(weatherDescription);
-
-          const weatherImage = document.createElement('img');
-          weatherImage.src = `http://openweathermap.org/img/w/${weather.weather[0].icon}.png`
-          weatherInfo.appendChild(weatherImage);
-          const temperature = document.createElement('p');
-          const tempinCelcius = Math.round(weather.main.temp - 273.15);
-          temperature.innerHTML = `The current temperature is: ${tempinCelcius} degC`;
-          weatherInfo.appendChild(temperature);
-          modalContent.appendChild(weatherInfo);
-        }
-        const openWeatherReq = new Request(`https://api.openweathermap.org/data/2.5/weather?q=${city.data.places[0].name}&APPID=${keys.openWeather}`);
-        openWeatherReq.get(addToModal);
-      }
-      getCity.get(addToModalCity, keys.sygicTravel)
 
 
     });
