@@ -213,6 +213,7 @@ const addToHeaderCity = function(city){
   const userCity = document.createElement('p');
 
   const addToHeader = function(weather){
+    weatherInfo.innerHTML = "";
     userCity.innerText = `${city.data.places[0].name}`
     weatherInfo.appendChild(userCity);
 
