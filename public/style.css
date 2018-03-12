@@ -21,7 +21,8 @@ body {
   background-color: #328cc1;
   width: 90%;
   margin: auto;
-  color: white;
+  /* color: white; */
+  color: #ffcc00;
 }
 
 h1{
@@ -56,11 +57,13 @@ button{
   margin-left: 20px;
   height: 50px;
   width: 250px;
-  background-color: white;
+  /* background-color: white; */
+  background-color: #ffcc00;
   border: none;
   font-family: 'Roboto', sans-serif;
   font-size: 20px;
   font-weight: bold;
+  border-radius: 5px;
 }
 
 .marker-icon {
@@ -88,6 +91,7 @@ button{
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+
 }
 
 /* Modal Content/Box */
@@ -95,7 +99,9 @@ button{
     background-color: #fefefe;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
-    border: 1px solid #888;
+    /* border: 1px solid #888; */
+    border: 5px solid #0b3c5d;
+    border-radius: 10px;
     width: 80%; /* Could be more or less, depending on screen size */
 }
 

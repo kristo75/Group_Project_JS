@@ -181,7 +181,7 @@ const appStart = function(){
   });
 
   const newMarkerIcon = Leaflet.icon({
-    iconUrl: 'user_marker.png',
+    iconUrl: 'user_marker2.png',
     // iconSize:     [60, 120] // size of the icon
     iconAnchor:   [50, 100] // point of the icon which will correspond to marker's location
     // popupAnchor:  [15, -20] // point from which the popup should open relative to the iconAnchor
@@ -239,14 +239,18 @@ getCity.get(addToHeaderCity, keys.sygicTravel)
       const closeModal = document.getElementsByClassName("close")[0];
       const modalContent = document.querySelector('.modal-content');
       modalContent.innerHTML = "";
-      const modalHeader = document.createElement('h2')
-      modalHeader.innerHTML="HOW TO PLAY";
-      modalContent.appendChild(modalHeader);
+      // const modalHeader = document.createElement('h2')
+      // modalHeader.innerHTML="HOW TO PLAY";
+      // modalContent.appendChild(modalHeader);
       const modalP = document.createElement('p');
-      modalP.innerHTML = 'When you launch the app, the geo locator will display your start position and will display five random locations for you to explore.<br><br>'
-      + 'The geo locator will track your journey on the map and once you are within a 50 meter radius of a point of interest, click on the image icon to display detailed information about the point of interest.<br><br>'
-      + 'This point of interest will be automatically added to your list of places visited. To display this list, please click on the WHERE HAVE I BEEN button.<br><br>'
-      + 'To get a preview of a point of interest, click on the image icon.</br> <br>  To exit from a pop up box, please click anywhere on the map.</b>'
+      modalP.innerHTML = 'Hi POImon trainer!<br><br>'
+      + 'When you launch the app it will display your start position and five random locations for you to explore.<br><br>'
+      + 'To get a preview of a point of interest, click on the image icon.<br><br>'
+      + 'The app will track your journey on the map and once you are within a 50 meter radius of a point of interest, click on the image icon to display detailed information about the point of interest.<br><br>'
+      + 'This point of interest will be automatically added to your list of places visited. To display this list, please click on the MY POIMON button.<br><br>'
+      + 'To exit from a pop up box, please click anywhere on the map.<br><br>'
+      + 'Good luck in your quest!'
+
       modalContent.appendChild(modalP);
       modal.style.display = "block";
       window.onclick = function(event) {
