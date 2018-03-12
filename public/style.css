@@ -66,6 +66,10 @@ button{
   border-radius: 5px;
 }
 
+button:hover{
+  background-color: #328cc1;
+}
+
 .marker-icon {
   height: 100px;
   width: 100px;
@@ -103,6 +107,10 @@ button{
     border: 5px solid #ffcc00;
     border-radius: 10px;
     width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.prof{
+  float: right;
 }
 
 /* The Close Button */

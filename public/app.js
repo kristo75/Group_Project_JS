@@ -16,7 +16,7 @@ const initialiseUI = function(){
       const modalContent = document.querySelector('.modal-content')
       modalContent.innerHTML = "";
       const modalHeader = document.createElement('h2')
-      modalHeader.innerHTML="MY POIMON";
+      modalHeader.innerHTML="POIDEX";
       modalContent.appendChild(modalHeader);
       const xptag = document.createElement('p');
       let counter = 0;
@@ -29,6 +29,9 @@ const initialiseUI = function(){
         modal.style.display = "block";
       })
       if(counter == 100){
+        const unlockText = document.createElement('p');
+        unlockText.innerText = "Congratulations! You've unlocked POIkachu's jukebox!";
+        modalContent.appendChild(unlockText);
         const video = document.createElement('iframe');
         video.src = 'https://www.youtube.com/embed/THt5u-i2d9k?rel=0&autoplay=1';
         video.setAttribute('width', '560');
@@ -243,12 +246,17 @@ getCity.get(addToHeaderCity, keys.sygicTravel)
       // const modalHeader = document.createElement('h2')
       // modalHeader.innerHTML="HOW TO PLAY";
       // modalContent.appendChild(modalHeader);
+      const prof = document.createElement('img');
+      prof.setAttribute('class', 'prof');
+      prof.src='professor.png'
+      modalContent.appendChild(prof);
       const modalP = document.createElement('p');
-      modalP.innerHTML = 'Hi POImon trainer!<br><br>'
+      modalP.innerHTML = 'PROF. E. :<br><br>'
+      + 'Hi POImon trainer! My name is Professor E.<br><br>'
       + 'When you launch the app it will display your start position and five random locations for you to explore.<br><br>'
       + 'To get a preview of a point of interest, click on the image icon.<br><br>'
       + 'The app will track your journey on the map and once you are within a 50 meter radius of a point of interest, click on the image icon to display detailed information about the point of interest.<br><br>'
-      + 'This point of interest will be automatically added to your list of places visited. To display this list, please click on the MY POIMON button.<br><br>'
+      + 'This point of interest will be automatically added to your list of places visited. To display this list, please click on the POIDEX button.<br><br>'
       + 'To exit from a pop up box, please click anywhere on the map.<br><br>'
       + 'Good luck in your quest!'
 
