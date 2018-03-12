@@ -171,7 +171,8 @@ const appStart = function(){
   // mapbox.streets
   //mapbox.outdoors
   //mapbox.emerald
-  //mapbox.outdoors
+  //mapbox.comic
+  //mapbox.pirates
 
 
   const userVisitedPoisBtn = document.querySelector('#userVisitedPoisBtn');
