@@ -7,14 +7,14 @@ const ObjectID = require('mongodb').ObjectID;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-console.log(process.env.MONGODB_URI)
 const databaseUrl = process.env.MONGODB_URI || "mongodb://localhost:27017"
+console.log(databaseUrl)
 database.connect(databaseUrl, function(error, client){
   if(error){
     console.log("Error:", error);
   return
   }
-  const db = client.db("infernal");
+  // const db = client.db("infernal");
 
   app.get('/', function(req, res){
     res.sendFile(path.join(__dirname + '/index.html'))
