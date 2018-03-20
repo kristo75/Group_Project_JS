@@ -11,7 +11,7 @@ const initialiseUI = function(){
   const modal = document.getElementById('myModal');
   const closeModal = document.getElementsByClassName("close")[0];
   userVisitedPoisBtn.addEventListener('click', function(){
-    const getRequest = new Request('http://localhost:3000/db');
+    const getRequest = new Request('https://infernal-map.herokuapp.com/db');
     getRequest.get(function(allPOIs){
       const modalContent = document.querySelector('.modal-content')
       modalContent.innerHTML = "";
@@ -106,14 +106,14 @@ const appStart = function(){
           console.log('poilatlng: ' +poilatlng);
 
           if(distance <= 50){
-            const getRequest = new Request('http://localhost:3000/db');
+            const getRequest = new Request('https://infernal-map.herokuapp.com/db');
             getRequest.get(function(allPOIs){
               const alreadyInDB = allPOIs.reduce(function(incrementor, userPOI){
                 return incrementor || (userPOI.id == poi.id);
               }, false)
 
               if (!alreadyInDB) {
-                const postRequest = new Request('http://localhost:3000');
+                const postRequest = new Request('https://infernal-map.herokuapp.com');
                 postRequest.post(poi, createRequestComplete);
               }
             });
