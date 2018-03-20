@@ -14,7 +14,8 @@ database.connect(databaseUrl, function(error, client){
     console.log("Error:", error);
   return
   }
-  // const db = client.db("infernal");
+  console.log(client)
+  const db = client.db("heroku_rgv75lk1");
 
   app.get('/', function(req, res){
     res.sendFile(path.join(__dirname + '/index.html'))
