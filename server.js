@@ -8,7 +8,8 @@ const ObjectID = require('mongodb').ObjectID;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 console.log(process.env.MONGODB_URI)
-database.connect("mongodb://<admin>:<dbpassword>@ds261128.mlab.com:61128/heroku_rgv75lk1", function(error, client){
+const databaseUrl = process.env.MONGODB_URI || "mongodb://localhost:27017"
+database.connect(databaseUrl, function(error, client){
   if(error){
     console.log("Error:", error);
   return
